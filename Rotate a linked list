@@ -1,0 +1,63 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+  //created a fucntion to get the length of the provided linked list here i have used a temp node to traverse through the entire LL and a variable len which will store the length of LL at the end
+    int getlength(ListNode*&head){
+        int len=1;
+        ListNode*temp=head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+            len++;
+        }
+        return len;
+    }
+  //next i have created findNthNode fucntion which is taking length and the head as an input and inside which i have taken a var count starting from 1 and at every iteration i am chekcing if it is equal to the lengh 
+  //provide if yes then returning the head
+    ListNode*findNthNode(ListNode*head,int length){
+     int count=1;
+        while(head!=nullptr){
+            
+          if(count==length)return head;
+           head=head->next;
+           count++;
+           
+        }
+
+     return head;
+    }
+  //this is our main fucntion which will return the final LL 
+    ListNode* rotateRight(ListNode* head, int k) {
+      we checked here whethere the head was equal to null or the given k was equal to 0 or not
+         if(head==NULL ||k==0){
+            return head;
+        }
+        int len=getlength(head);
+        ListNode*temp=head;
+    
+      
+      while(temp->next!=nullptr){
+        temp=temp->next;
+      }
+      //another edge case if the k%len was equal to 0 then it ultimately give the same LL so returning the head
+      if(k%len==0){
+        return head;
+      }
+     // here if k%len if not 0 then updating it
+        k=k%len;
+      
+      temp->next=head;
+      ListNode*newnode=findNthNode(head,len-k);
+    head=newnode->next;
+    newnode->next=nullptr;
+ return head;
+    }
+};
